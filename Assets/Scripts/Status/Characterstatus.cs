@@ -11,16 +11,16 @@ public abstract class CharacterStatus : ScriptableObject
 {
     //　キャラ名
     [SerializeField]
-    private string characterName = "";
+    protected string characterName { get; set; } = "";
     //　毒状態かどうか
     [SerializeField]
     private bool isPoisonState = false;
     //　レベル
     [SerializeField]
-    private int level = 1;
+    protected int level { get; set; } = 1;
     //　最大体力
     [SerializeField]
-    private int maxHp = 100;
+    protected int maxHp = 100;
     //　体力
     [SerializeField]
     private int hp = 100;
@@ -32,23 +32,13 @@ public abstract class CharacterStatus : ScriptableObject
     private int mp = 100;
     //　素早さ
     [SerializeField]
-    private int agility = 5;
+    protected int agility { get; set; } = 5;
     //　力
     [SerializeField]
-    private int power = 10;
+    protected int power { get; set; } = 10;
     //　硬さ
     [SerializeField]
-    private int defense = 10;
-
-    public void SetCharacterName(string characterName)
-    {
-        this.characterName = characterName;
-    }
-
-    public string GetCharacterName()
-    {
-        return characterName;
-    }
+    protected int defense { get; set; } = 10;
 
     public void SetPoisonState(bool poisonFlog)
     {
@@ -58,16 +48,6 @@ public abstract class CharacterStatus : ScriptableObject
     public bool IsPoisonState()
     {
         return isPoisonState;
-    }
-
-    public void SetLevel(int level)
-    {
-        this.level = level;
-    }
-
-    public int GetLevel()
-    {
-        return level;
     }
 
     public void SetMaxHp(int hp)
@@ -85,7 +65,6 @@ public abstract class CharacterStatus : ScriptableObject
         //Mathf.Minでキャラの最小HPを取得し、Mathf.Maxで最大HPを取得
         this.hp = Mathf.Max(0, Mathf.Min(GetMaxHp(), hp));//引数で0を入れることで0より小さくならないようにする
     }
-
     public int GetHp()
     {
         return hp;
@@ -100,7 +79,6 @@ public abstract class CharacterStatus : ScriptableObject
     {
         return maxMp;
     }
-
     public void SetMp(int mp)
     {
         //Mathf.Minでキャラの最小MPを取得し、Mathf.Maxで最大MPを取得
@@ -110,36 +88,6 @@ public abstract class CharacterStatus : ScriptableObject
     public int GetMp()
     {
         return mp;
-    }
-
-    public void SetAgility(int agility)
-    {
-        this.agility = agility;
-    }
-
-    public int GetAgilety()
-    {
-        return agility;
-    }
-
-    public void SetPower(int power)
-    {
-        this.power = power;
-    }
-
-    public int GetPower()
-    {
-        return power;
-    }
-
-    public void SetDefence(int defence)
-    {
-        this.defense = defence;
-    }
-
-    public int GetDefence(int defence)
-    {
-        return defence;
     }
 
     // Start is called before the first frame update

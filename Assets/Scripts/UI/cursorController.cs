@@ -6,7 +6,12 @@ using UnityEngine.UI;
 
 public class cursorController : MonoBehaviour
 {
-    GameObject CharacterSelect;
+    GameObject cursorPrefab;
+    GameObject samuraiPrefab;
+    GameObject ninjaPrefab;
+    GameObject mikoPrefab;
+    GameObject onmyouzPrefabi;
+    GameObject Character;
     public GameObject[] Targets { get; private set; }//カーソル移動用
     public int CurrentPos { get; private set; }//カーソル移動用
     public GameObject[] CS { get; private set; }//キャラ選択用
@@ -20,14 +25,16 @@ public class cursorController : MonoBehaviour
             Targets[i] = GameObject.Find(name[i]);
         }
         transform.position = Targets[CurrentPos].transform.position;
+        //カーソル探す
+        this.cursorPrefab = GameObject.Find("cursorPrefab");
         //キャラ選択用配列
-        //string[] Character = { "samuraiPrefab", "ninjaPrefab", "mikoPrefab", "onmyouzPrefabi" };
-        //CS = new GameObject[Character.Length];
-        //for (int c = 0; c < Character.Length; c++)
-        //{
-        //    CS[c] = GameObject.Find(Character[c]);
-        //}
-        //this.Character = GameObject.Find(null);
+        string[] Character = { "samuraiPrefab", "ninjaPrefab", "mikoPrefab", "onmyouzPrefabi" };
+        CS = new GameObject[Character.Length];
+        for (int c = 0; c < Character.Length; c++)
+        {
+            CS[c] = GameObject.Find(Character[c]);
+        }
+        this.Character = GameObject.Find(null);
     }
     void Update()
     {
@@ -42,14 +49,17 @@ public class cursorController : MonoBehaviour
             if (CurrentPos < Targets.Length - 1) CurrentPos++;
         }
         transform.position = Targets[CurrentPos].transform.position;
-        //当たり判定
-        //Vector2 cursor = transform.position;
         
 
-        //Enterでキャラ選択
+        //Enterを押したとき
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            Debug.Log("キャラ選択したい！");   
+            //カーソルの場所
+            float cursorPos = this.cursorPrefab.transform.position.y;
+            Debug.Log("キャラ選択したい！");
+            Debug.Log(cursorPos);
+            //当たり判定
+            float samuraiPos = this.samuraiPrefab.transform.position.y;
         }
     }
 }

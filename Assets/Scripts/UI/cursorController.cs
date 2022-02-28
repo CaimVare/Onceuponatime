@@ -10,6 +10,7 @@ public class cursorController : MonoBehaviour
     public GameObject[] Targets { get; private set; }//カーソル移動用
     public int CurrentPos { get; private set; }//カーソル移動用
     public GameObject[] CS { get; private set; }//キャラ選択用
+    int ent;//エンターフラグ用
     private void Start()
     {
         //カーソル移動用の空オブジェクト配列
@@ -22,44 +23,64 @@ public class cursorController : MonoBehaviour
         transform.position = Targets[CurrentPos].transform.position;
         //カーソル探す
         this.cursorPrefab = GameObject.Find("cursorPrefab");
+        //エンターフラグ
+        ent = 0;
     }
     void Update()
     {
-        //上矢印で配列の1つ上に移動
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (ent == 0)
         {
-            if (CurrentPos > 0) CurrentPos--;
-        }
-        //下矢印で配列の1つ下に移動
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (CurrentPos < Targets.Length - 1) CurrentPos++;
-        }
-        transform.position = Targets[CurrentPos].transform.position;
-        
-
-        //Enterを押したとき
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            //カーソルの場所
-            float cursorPos = this.cursorPrefab.transform.position.y;
-            Debug.Log(cursorPos);
-
-            GameObject selected = null;//キャラ選択を初期化
-            //配列からｙ軸が同じだったオブジェクトを返す
-            for (int i = 0; i < Targets.Length; i++)
+            //上矢印で配列の1つ上に移動
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                if (cursorPos == Targets[i].transform.position.y)
-                {
-                    selected = Targets[i];
-                    Debug.Log(Targets[i]);
-                }
+                if (CurrentPos > 0) CurrentPos--;
             }
-            //選択後半透明する
-            this.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, -120);
-            //数値が決まった場合動かなくする
-            //マネージャーに値を返す
-            //カーソル2に移行
+            //下矢印で配列の1つ下に移動
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (CurrentPos < Targets.Length - 1) CurrentPos++;
+            }
+            transform.position = Targets[CurrentPos].transform.position;
+
+
+            //Enterを押したとき
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                //カーソルの場所
+                float cursorPos = this.cursorPrefab.transform.position.y;
+                Debug.Log(cursorPos);
+
+                GameObject selected = null;//キャラ選択を初期化
+                                           //配列からｙ軸が同じだったオブジェクトを返す
+                for (int i = 0; i < Targets.Length; i++)
+                {
+                    if (cursorPos == Targets[i].transform.position.y)
+                    {
+                        selected = Targets[i];
+                        Debug.Log(Targets[i]);
+                    }
+                }
+                //選択後半透明する
+                this.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.5f);
+                //Rigidbodyを取得
+                var rb = GetComponent<Rigidbody>();
+                //移動しなくする（FreezePositionをオンにする
+                //rb.constraints = RigidbodyConstraints.FreezePosition;
+                //エンターフラグに1を足す
+                ent += 1;
+                //マネージャーに値を返す
+                //カーソル2に移行
+            }
+        }
+        //選択解除
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            ent = 0;
+            //透過を戻す
+            this.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 1);
         }
     }
+    
+    
+        
 }

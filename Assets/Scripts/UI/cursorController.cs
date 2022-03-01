@@ -9,7 +9,6 @@ public class cursorController : MonoBehaviour
     GameObject cursorPrefab;//カーソル宣言
     public GameObject[] Targets { get; private set; }//カーソル移動用
     public int CurrentPos { get; private set; }//カーソル移動用
-    public GameObject[] CS { get; private set; }//キャラ選択用
     int ent;//エンターフラグ用
     private void Start()
     {
@@ -49,9 +48,10 @@ public class cursorController : MonoBehaviour
                 //カーソルの場所
                 float cursorPos = this.cursorPrefab.transform.position.y;
                 Debug.Log(cursorPos);
-
+                //半透明にする
+                this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.5f);
                 GameObject selected = null;//キャラ選択を初期化
-                                           //配列からｙ軸が同じだったオブジェクトを返す
+                //配列からｙ軸が同じだったオブジェクトを返す
                 for (int i = 0; i < Targets.Length; i++)
                 {
                     if (cursorPos == Targets[i].transform.position.y)
@@ -60,25 +60,20 @@ public class cursorController : MonoBehaviour
                         Debug.Log(Targets[i]);
                     }
                 }
-                //選択後半透明する
-                this.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.5f);
-                //Rigidbodyを取得
-                var rb = GetComponent<Rigidbody>();
-                //移動しなくする（FreezePositionをオンにする
-                //rb.constraints = RigidbodyConstraints.FreezePosition;
                 //エンターフラグに1を足す
                 ent += 1;
-                //マネージャーに値を返す
+                //BattleManagerに値を返す
                 //カーソル2に移行
             }
         }
         //選択解除
         if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            ent = 0;
-            //透過を戻す
-            this.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 1);
-        }
+            {
+             ent = 0;
+             //透過を戻す
+             this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
+            //BattleManagerに値を返す
+            }
     }
     
     

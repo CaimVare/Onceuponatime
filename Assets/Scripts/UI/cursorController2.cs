@@ -1,36 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class cursorController : MonoBehaviour
+public class cursorController2 : MonoBehaviour
 {
-    GameObject cursorPrefab;//カーソル1宣言
-    GameObject cursorPrefab2;//カーソル2宣言
+    GameObject cursorPrefab2;//カーソル宣言
     public GameObject[] Targets { get; private set; }//カーソル移動用
     public int CurrentPos { get; private set; }//カーソル移動用
-    int select;//エンターフラグ用
+    int ent;//エンターフラグ用
     private void Start()
     {
         //カーソル移動用の空オブジェクト配列
-        string[] name = { "samuraicursor", "ninjacursor", "mikocursor", "onmyoujicursor", "Completioncursor" };
+        string[] name = { "samuraicursor", "ninjacursor", "mikocursor", "onmyoujicursor" };
         Targets = new GameObject[name.Length];
         for (int i = 0; i < name.Length; i++)
         {
             Targets[i] = GameObject.Find(name[i]);
         }
         transform.position = Targets[CurrentPos].transform.position;
-        //カーソル1を探す
-        this.cursorPrefab = GameObject.Find("cursorPrefab");
-        //カーソル2を探す
+        //カーソル探す
         this.cursorPrefab2 = GameObject.Find("cursorPrefab2");
         //エンターフラグ
-        select = 0;
+        ent = 0;
     }
     void Update()
     {
-        if (select == 0)
+        if (ent == 0)
         {
             //上矢印で配列の1つ上に移動
             if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -49,7 +44,7 @@ public class cursorController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 //カーソルの場所
-                float cursorPos = this.cursorPrefab.transform.position.y;
+                float cursorPos = this.cursorPrefab2.transform.position.y;
                 Debug.Log(cursorPos);
                 //半透明にする
                 this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.5f);
@@ -64,21 +59,18 @@ public class cursorController : MonoBehaviour
                     }
                 }
                 //エンターフラグに1を足す
-                select += 1;
+                ent += 1;
                 //BattleManagerに値を返す
                 //カーソル2に移行
             }
         }
         //選択解除
         if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-             select = 0;
-             //透過を戻す
-             this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
+        {
+            ent = 0;
+            //透過を戻す
+            this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 1);
             //BattleManagerに値を返す
-            }
+        }
     }
-    
-    
-        
 }

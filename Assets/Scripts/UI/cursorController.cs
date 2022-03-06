@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class cursorController : MonoBehaviour
 {
     GameObject cursorPrefab;//カーソル1宣言
-    GameObject cursorPrefab2;//カーソル2宣言
     public GameObject[] Targets { get; private set; }//カーソル移動用
     public int CurrentPos { get; private set; }//カーソル移動用
     int select;//エンターフラグ用
-    private void Start()
+
+    public void Start()
     {
         //カーソル移動用の空オブジェクト配列
         string[] name = { "samuraicursor", "ninjacursor", "mikocursor", "onmyoujicursor", "Completioncursor" };
@@ -23,12 +23,10 @@ public class cursorController : MonoBehaviour
         transform.position = Targets[CurrentPos].transform.position;
         //カーソル1を探す
         this.cursorPrefab = GameObject.Find("cursorPrefab");
-        //カーソル2を探す
-        this.cursorPrefab2 = GameObject.Find("cursorPrefab2");
         //エンターフラグ
         select = 0;
     }
-    void Update()
+    public void Update()
     {
         if (select == 0)
         {

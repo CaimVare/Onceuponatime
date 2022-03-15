@@ -8,7 +8,8 @@ public class cursorManager : MonoBehaviour
     private enum CursorStatus
     {
         SelectOne = 0,
-        SelectTwo
+        SelectTwo,
+        SelectCompletionc
     }
     //カーソル1を宣言
     private GameObject cursor1;
@@ -26,7 +27,7 @@ public class cursorManager : MonoBehaviour
         //カーソル1を選択可能に初期化
         cursor1.GetComponent<cursorController>().state = cursorController.status.select;
         //カーソル2を選択前に初期化
-        cursor2.GetComponent<cursorController>().state = cursorController.status.preSelect;
+        cursor2.GetComponent<cursorController>().ChangeState(cursorController.status.preSelect);
     }
 
     void Update()
@@ -35,6 +36,7 @@ public class cursorManager : MonoBehaviour
         {
             case CursorStatus.SelectOne://カーソル1選択時
                 {
+                    //カーソル1のターゲットに代入されたとき
                     if (cursor1.GetComponent<cursorController>().selected != null)
                     {
                         state = CursorStatus.SelectTwo;
@@ -44,11 +46,18 @@ public class cursorManager : MonoBehaviour
                 }
             case CursorStatus.SelectTwo:
                 {
+                    //カーソル2のターゲットに代入されたとき
                     if(cursor2.GetComponent<cursorController>().selected != null)
                     {
-
+                        cursor2.GetComponent<cursorController>().state = cursorController.status.Done;
                     }
                     break;
+                }
+            case CursorStatus.SelectCompletionc:
+                {
+                    
+                    break;
+
                 }
 
         }
